@@ -22,7 +22,7 @@ public class WashPackService {
     public WashPacks addWP(WashPacks washPacks){
         return wr.insert(washPacks);
     }
-    //To find all washpacks
+    //To find all wash packs
     public List<WashPacks> findallWP(){
         return wr.findAll();
     }
@@ -31,7 +31,7 @@ public class WashPackService {
         WashPacks wp=wr.findById(id).orElseThrow(() ->  new API_requestException("Washpack with ID -> "+id+" not found"));
         return ResponseEntity.ok(wp);
     }
-    //To find washpack with washpack name for user's reciept
+    //To find wash pack with wash pack name for user's receipt
     public WashPacks findbyname(String name){
         return wr.findAll().stream().filter(x -> x.getName().contains(name)).findFirst().get();
     }

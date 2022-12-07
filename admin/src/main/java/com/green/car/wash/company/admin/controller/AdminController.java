@@ -40,12 +40,12 @@ public class AdminController{
     public ResponseEntity<Map<String,Boolean>> deleteWP(@PathVariable String id){
         return wps.deleteWP(id);
     }
-    //To update a Washpack
+    //To update a Wash pack
     @PutMapping("/updateWP/{id}")
     public ResponseEntity<WashPacks> updateWP(@PathVariable String id,@RequestBody WashPacks washPacks){
         return wps.updateWP(id,washPacks);
     }
-    //To find washpack with washpack name for user's reciept
+    //To find wash pack with wash pack name for user's receipt
     @GetMapping("/wpbyname/{name}")
     public WashPacks wpbyname(@PathVariable String name){
         return wps.findbyname(name);
