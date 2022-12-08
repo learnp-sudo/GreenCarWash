@@ -1,10 +1,12 @@
 package com.green.car.wash.company.washer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.green.car.wash.company.washer.model.OrderDetails;
 import com.green.car.wash.company.washer.model.WashPacks;
+import com.green.car.wash.company.washer.model.WasherProfile;
+import com.green.car.wash.company.washer.service.WasherProfileService;
 import com.green.car.wash.company.washer.service.WasherService;
 
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.List;
 public class WasherController {
     @Autowired
     WasherService wr;
+    @Autowired
+    WasherProfileService wps;
 
     /** Only the methods that consume rest template are below this comment **/
     //To see the Unassigned orders
@@ -42,5 +46,32 @@ public class WasherController {
     @GetMapping("/seeWP")
     public List<WashPacks> getAllWP(){
         return wr.getAllWP();
+    }
+  //adding details of washer
+    @PostMapping("/addDetails")
+    public WasherProfile addDetails(@RequestBody WasherProfile details)
+    {
+    	return wps.addDetails(details);
+    }
+    @PutMapping("/updateDetails/{email}")
+    public ResponseEntity updateDetails(@PathVariable String email ,@RequestBody WasherProfile details)
+    {
+    	wps.updateDetails(details);
+    	return ResponseEntity.ok().build();
+    }
+    @GetMapping("/getWashers")
+    public List<WasherProfile> getAllWashers(){
+        return wps.getAllWashers();
+    }
+    @GetMapping("/Washer/{fullName}")
+    public List<WasherProfile> getAllWashers(@PathVariable String fullName){
+        return wps.getWasher(fullName);
+    }
+    @DeleteMapping("/delete/{email}")
+    public void deleteproduct(@PathVariable String email)
+    {
+
+        wps.deleteById(email);
+
     }
 }
