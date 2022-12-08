@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection ="ratings")
 public class Ratings {
 	@Id
+	
 	 String id;
 	//This will work as a foreign key to get all the ratings of specific washer
     String washerName;

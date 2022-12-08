@@ -15,6 +15,18 @@ public class customerDetails {
     private String password;
     private String fullName;
     private String phoneNumber;
+    public customerDetails()
+    {
+
+    }
+	public customerDetails(String id, String email, String password, String fullName, String phoneNumber) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.fullName = fullName;
+		this.phoneNumber = phoneNumber;
+	}
 	public String getId() {
 		return id;
 	}
