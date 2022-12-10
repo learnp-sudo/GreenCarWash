@@ -21,7 +21,7 @@ public class WasherApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WasherApplication.class, args);
 	}
-
+//git
 
 }
 
