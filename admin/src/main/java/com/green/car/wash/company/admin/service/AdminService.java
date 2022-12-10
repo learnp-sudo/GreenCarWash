@@ -3,6 +3,8 @@ package com.green.car.wash.company.admin.service;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,15 +22,16 @@ import com.green.car.wash.company.admin.model.customerDetails;
 
 @Service
 public class AdminService {
+	Logger log = LoggerFactory.getLogger(AdminService.class);
     @Autowired
     private RestTemplate restTemplate;
 
     //Url to access the methods of Order Service
-    String url="http://ORDER/orders";
+    String url="http://order/orders";
     //Url to access the methods of washer Service
-    String url1="http://WASHER/washers";
+    String url1="http://washer/washers";
     //Url to access the methods of customer Service
-    String url3="http://CUSTOMER/customer";
+    String url3="http://customer/customer";
 
 
   //To see all the Orders
@@ -54,10 +57,12 @@ public class AdminService {
         //Using a wrapper-class here to get 2 json in one
     	System.out.println(fullName);
         WasherProfile wd =restTemplate.getForObject(url1+"/Washer/"+fullName,WasherProfile.class);
+        log.info(fullName);
         System.out.println(wd.getFullName());
         Ratings[] ratingsList=restTemplate.getForObject(url3+"/washerSpecificRating/"+fullName,Ratings[].class);
         //Wrapping into a "Proxy class"
-        return  new WasherRatings(wd.getFullName(),wd.getEmail(),Arrays.asList(ratingsList));
+        WasherRatings washerRating=new WasherRatings(wd.getFullName(),wd.getEmail(),Arrays.asList(ratingsList));
+        return washerRating;
     }
 	public List<WasherProfile> getOneWasher(String fullName) {
 		WasherProfile[] wp=restTemplate.getForObject(url1+"/Washer/"+fullName,WasherProfile[].class);
