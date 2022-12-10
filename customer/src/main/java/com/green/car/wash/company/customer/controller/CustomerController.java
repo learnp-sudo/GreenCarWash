@@ -2,6 +2,8 @@ package com.green.car.wash.company.customer.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,7 @@ import com.green.car.wash.company.customer.wrapperclass.OrderReceipt;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
+	Logger log = LoggerFactory.getLogger(CustomerController.class);
 	@Autowired
 	private CustomerRepo customerrepo;
 	@Autowired
@@ -42,17 +45,20 @@ public class CustomerController {
 	//get all ratings
 	@GetMapping("/getallRatings")
     public List<Ratings> getallratings(){
+		log.info("all the ratings");
         return ratingservice.getallRatings();
     }
 	//get the washer specific ratings
 	@GetMapping("/washerSpecificRating/{washerName}")
     public List<Ratings> washerSpecificRating(@PathVariable String washerName){
-        return ratingservice.washerSpecific(washerName);
+        log.info("washerDetails");
+		return ratingservice.washerSpecific(washerName);
 	}
 	//adding details of customer
     @PostMapping("/addDetails")
     public customerDetails addDetails(@RequestBody customerDetails details)
     {
+
     	return customerservice.addDetails(details);
     }
     //update the customer details
@@ -66,7 +72,6 @@ public class CustomerController {
 	    @DeleteMapping("/delete/{id}")
 	    public void deleteproduct(@PathVariable String id)
 	    {
-
 	        customerrepo.deleteById(id);
 
 	    }

@@ -3,6 +3,8 @@ package com.green.car.wash.company.customer;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.stream.Collectors;
@@ -45,6 +47,14 @@ class CustomerApplicationTests {
 				).collect(Collectors.toList()));
 		assertEquals(1,service.CustomerSpecific("123").size());
 	}
+	@Test
+    public void deleteProfilebyidTest() {
+        customerDetails customerDetail= new customerDetails("124","cccc@gmail.com","200","aaaa","2345678");
+        String id = "123";
+       service.deleteProfile(id);
+        verify(customerrepo, times(1)).deleteById(id);
+    }
+
 
 
 }
