@@ -3,9 +3,12 @@ package com.green.car.wash.company.customer.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.green.car.wash.company.customer.controller.CustomerController;
 import com.green.car.wash.company.customer.models.Ratings;
 import com.green.car.wash.company.customer.models.customerDetails;
 import com.green.car.wash.company.customer.repository.CustomerRepo;
@@ -14,6 +17,7 @@ import com.green.car.wash.company.customer.repository.CustomerRepo;
 public class CustomerService {
 	@Autowired
 	private CustomerRepo customerRepo;
+	Logger log = LoggerFactory.getLogger(CustomerService.class);
 	//adding customer profile
 	public customerDetails addDetails(customerDetails details){
         return customerRepo.insert(details);
@@ -21,6 +25,7 @@ public class CustomerService {
 	//deleting customer profile by id
 	public String deleteProfile(String id){
         customerRepo.deleteById(id);
+        log.info("Id deleted");
         return "ID -> "+id+" deleted successfully";
     }
 	//updating the existing customer details
