@@ -1,12 +1,16 @@
 package com.green.car.wash.company.order.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import com.green.car.wash.company.order.exceptionHandlers.API_requestException;
+import com.green.car.wash.company.order.model.Cart;
 import com.green.car.wash.company.order.model.OrderDetails;
 import com.green.car.wash.company.order.repository.OrderRepo;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +22,10 @@ import java.util.stream.Collectors;
 public class OrderController {
     @Autowired
     private OrderRepo or;
+    @Autowired
+    private RestTemplate restTemplate;
+    //@Autowired
+   // private SequenceGeneratorService sequenceGeneratorService;
 
     //To get all orders
     @GetMapping("/findall")
@@ -31,12 +39,19 @@ public class OrderController {
          return ResponseEntity.ok(order);
     }
     //To add an order
-    @PostMapping("/add")
-    public OrderDetails addOrder(@RequestBody OrderDetails order) {
-        //Every Order at conception will be [Pending] and [Unassigned]
-        order.setStatus("Pending");
+    @PostMapping("/add/{orderId}/{email}")
+    public void addOrder(@RequestBody Cart cart, String orderId, String email ) {
+        OrderDetails order=new OrderDetails();
+        order.setOrderId(orderId);
+        order.setUseremailid(email);
         order.setWasherName("NA");
-        return or.save(order);
+        order.setWashpack(cart.getWashpacks());
+        order.setPhoneNo(cart.getPhoneNo());
+        order.setAreapincode(cart.getAreapincode());
+        order.setStatus("Pending");
+        order.setCars(cart.getCar());
+        or.save(order);
+        restTemplate.delete("http://CART/cart/delete/" + cart.getCartId());
     }
     //To delete specific order with id
     @DeleteMapping("/delete/{orderId}")

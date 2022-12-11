@@ -1,21 +1,23 @@
 package com.green.car.wash.company.order.model;
 
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="orders")
 public class OrderDetails {
 
     @Id
-    
     String orderId;
     @NotEmpty(message = "Email Can't be empty")
     String useremailid;
     @NotEmpty(message = "Washer Name Can't be empty")
     String washerName;
     @NotEmpty(message = "Wash pack can't be empty")
-    String washpack;
+    String washpacks;
     @NotEmpty(message = "Date can't be empty")
     long phoneNo;
     @NotEmpty(message = "Pincode can't be empty")
@@ -34,7 +36,7 @@ public class OrderDetails {
         this.orderId = orderId;
         this.useremailid = useremailid;
         this.washerName = washerName;
-        this.washpack = washpack;
+        this.washpacks = washpack;
         this.phoneNo = phoneNo;
         this.areapincode = areapincode;
         this.status = status;
@@ -57,8 +59,8 @@ public class OrderDetails {
     public String getOrderId() {
         return orderId;
     }
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setOrderId(String i) {
+        this.orderId = i;
     }
     public String getWasherName() {
         return washerName;
@@ -67,10 +69,10 @@ public class OrderDetails {
         this.washerName = washerName;
     }
     public String getWashpack() {
-        return washpack;
+        return washpacks;
     }
     public void setWashpack(String washpack) {
-        this.washpack = washpack;
+        this.washpacks = washpack;
     }
     public long getPhoneNo() {
         return phoneNo;
@@ -91,13 +93,14 @@ public class OrderDetails {
         this.cars = cars;
     }
 
-    @Override
+
+	@Override
     public String toString() {
         return "OrderDetails{" +
                 "orderId='" + orderId + '\'' +
                 ", useremailid='" + useremailid + '\'' +
                 ", washerName='" + washerName + '\'' +
-                ", washpack=" + washpack +
+                ", washpack=" + washpacks +
                 ", phoneNo=" + phoneNo +
                 ", areapincode='" + areapincode + '\'' +
                 ", status='" + status + '\'' +
