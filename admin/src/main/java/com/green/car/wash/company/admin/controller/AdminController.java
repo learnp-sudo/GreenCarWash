@@ -77,9 +77,9 @@ public class AdminController{
 
 	  //To get all the ratings of a specific Washer
 
-		@GetMapping("/washerRating/{fullName}")
-		public WasherRatings washerSpecificRatings(@PathVariable String fullName) {
-			return as.washerSpecificRatings(fullName);
+		@GetMapping("/washerRating/{fullName}/{email}")
+		public WasherRatings washerSpecificRatings(@PathVariable String fullName ,String email) {
+			return as.washerSpecificRatings(fullName,email);
 		}
 
 	/** Washer controls through admin using rest template */

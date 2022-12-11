@@ -19,4 +19,3 @@ public class AdminApplication {
 		SpringApplication.run(AdminApplication.class, args);
 	}
 }
-//git

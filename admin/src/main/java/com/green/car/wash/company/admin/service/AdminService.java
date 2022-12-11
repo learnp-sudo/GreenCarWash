@@ -53,15 +53,16 @@ public class AdminService {
         return (Arrays.asList(washers));
     }
     //To get the details of Washers with all their reviews
-    public WasherRatings washerSpecificRatings(String fullName){
+    public WasherRatings washerSpecificRatings(String fullName, String email){
         //Using a wrapper-class here to get 2 json in one
     	System.out.println(fullName);
-        WasherProfile wd =restTemplate.getForObject(url1+"/Washer/"+fullName,WasherProfile.class);
         log.info(fullName);
-        System.out.println(wd.getFullName());
         Ratings[] ratingsList=restTemplate.getForObject(url3+"/washerSpecificRating/"+fullName,Ratings[].class);
         //Wrapping into a "Proxy class"
-        WasherRatings washerRating=new WasherRatings(wd.getFullName(),wd.getEmail(),Arrays.asList(ratingsList));
+        WasherRatings washerRating=new WasherRatings();
+        washerRating.setWasherName(fullName);
+        washerRating.setWasherEmailID(email);
+        washerRating.setRatings(Arrays.asList(ratingsList));
         return washerRating;
     }
 	public List<WasherProfile> getOneWasher(String fullName) {

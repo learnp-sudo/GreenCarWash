@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.green.car.wash.company.admin.model.Ratings;
 
 //This is a wrapper class to get ratings of specific washer
-@Document(collection="washerRating")
 public class WasherRatings {
     //private String WasherID;
     private String WasherName;

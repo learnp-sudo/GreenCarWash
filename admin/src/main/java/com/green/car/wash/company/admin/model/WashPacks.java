@@ -10,7 +10,15 @@ public class WashPacks {
     String pack_id;
     String name;
     int cost;
-    String description;
+    public String getPack_id() {
+		return pack_id;
+	}
+
+	public void setPack_id(String pack_id) {
+		this.pack_id = pack_id;
+	}
+
+	String description;
 
     //Default
     public WashPacks(){
@@ -38,12 +46,7 @@ public class WashPacks {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getId() {
-        return pack_id;
-    }
-    public void setId(String id) {
-        this.pack_id = id;
-    }
+
     public String getName() {
         return name;
     }
