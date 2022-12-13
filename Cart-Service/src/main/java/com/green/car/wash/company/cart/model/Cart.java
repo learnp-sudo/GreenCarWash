@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection="cart")
@@ -22,13 +22,7 @@ public class Cart
 private int cartId;
 private List<Items> items;
 private int totalPrice;
-private List<customerDetails1> CustomerDetails;
-public List<customerDetails1> getCustomerDetails() {
-	return CustomerDetails;
-}
-public void setCustomerDetails(List<customerDetails1> customerDetails) {
-	CustomerDetails = customerDetails;
-}
+//getters and setters
 public int getCartId() {
 	return cartId;
 }

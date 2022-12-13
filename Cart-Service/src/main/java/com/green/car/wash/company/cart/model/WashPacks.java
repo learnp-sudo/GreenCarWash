@@ -12,13 +12,7 @@ public class WashPacks {
     int cost;
     String description;
 
-    public String getPack_id() {
-		return pack_id;
-	}
 
-	public void setPack_id(String pack_id) {
-		this.pack_id = pack_id;
-	}
 
 	//Default
     public WashPacks(){
@@ -53,6 +47,13 @@ public class WashPacks {
     public void setName(String name) {
         this.name = name;
     }
+    public String getPack_id() {
+		return pack_id;
+	}
+
+	public void setPack_id(String pack_id) {
+		this.pack_id = pack_id;
+	}
 
     @Override
     public String toString() {

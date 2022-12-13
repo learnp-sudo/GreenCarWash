@@ -9,10 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Items
 {
 	private String name;
@@ -22,7 +21,9 @@ public class Items
 	@Min(1)
 	private int quantity;
 	private String pack_id;
-public String getPack_id() {
+
+    //getters and setters
+	public String getPack_id() {
 		return pack_id;
 	}
 	public void setPack_id(String pack_id) {
