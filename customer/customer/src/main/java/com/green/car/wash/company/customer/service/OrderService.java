@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.green.car.wash.company.customer.exceptionhandlers.API_requestException;
+import com.green.car.wash.company.customer.models.Cart;
 import com.green.car.wash.company.customer.models.OrderDetails;
 import com.green.car.wash.company.customer.models.WashPacks;
 import com.green.car.wash.company.customer.wrapperclass.OrderReceipt;
@@ -34,9 +35,9 @@ public class OrderService {
 
 	    /** Only the methods that use rest template are below this comment**/
 	    //To add an order from User-end
-	    public OrderDetails addOrder(OrderDetails orderDetails){
-	        HttpEntity<OrderDetails> addOrderbyUser = new HttpEntity<>(orderDetails);
-	        return restTemplate.postForObject(url+"/add",addOrderbyUser,OrderDetails.class);
+	    public Cart addOrder(Cart cart, String email){
+	        HttpEntity<Cart> addOrderbyUser = new HttpEntity<>(cart);
+	        return restTemplate.postForObject(url+"/add/"+email,addOrderbyUser,Cart.class);
 	    }
 	    //To update an order from User-end
 	    //This won't update the status of order

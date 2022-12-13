@@ -1,7 +1,6 @@
 package com.green.car.wash.company.customer.controller;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.green.car.wash.company.customer.models.Cart;
 import com.green.car.wash.company.customer.models.OrderDetails;
 import com.green.car.wash.company.customer.models.Ratings;
 import com.green.car.wash.company.customer.models.WashPacks;
@@ -24,6 +24,7 @@ import com.green.car.wash.company.customer.service.CustomerService;
 import com.green.car.wash.company.customer.service.OrderService;
 import com.green.car.wash.company.customer.service.RatingsService;
 import com.green.car.wash.company.customer.wrapperclass.OrderReceipt;
+
 
 @RestController
 @RequestMapping("/customer")
@@ -80,6 +81,11 @@ public class CustomerController {
     public List<customerDetails> customerSpecific(@PathVariable String id){
         return customerservice.CustomerSpecific(id);
 	}
+    @GetMapping("/allCustomers")
+    public List<customerDetails> customers(){
+        return customerrepo.findAll();
+	}
+
   //To see all the wash packs
     @GetMapping("/seeWP")
     public List<WashPacks> getAllWP(){
@@ -88,9 +94,10 @@ public class CustomerController {
 
     /** Only the methods that call rest-template methods from services are below this comment**/
     //To add an order from User-end
-    @PostMapping("/addOrder")
-    public OrderDetails addOrder(@RequestBody OrderDetails orderDetails){
-        return orderservice.addOrder(orderDetails);
+    @PostMapping("/addOrder/{email}")
+    public Cart addOrder(@RequestBody Cart cart, String email){
+
+        return orderservice.addOrder(cart,email);
     }
     //To update and order from User-end
     //This won't update the status of order
