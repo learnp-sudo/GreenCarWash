@@ -22,6 +22,6 @@ public class WasherApplication {
 		SpringApplication.run(WasherApplication.class, args);
 	}
 
-
+//sreeja
 }
 
