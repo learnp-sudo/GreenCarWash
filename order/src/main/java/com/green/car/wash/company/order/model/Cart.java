@@ -14,25 +14,27 @@ public class Cart
 
 @Id
 private int cartId;
-private String OrderId;
-private String email;
+private String orderId;
+private String useremailid;
 private List<Items> items;
 private Car car;
 private String washpacks;
 private int totalPrice;
-@NotEmpty(message = "Date can't be empty")
+@NotEmpty(message = "phoneNo can't be empty")
 private long phoneNo;
 @NotEmpty(message = "Pincode can't be empty")
 private String areapincode;
 
 
-public Cart(int cartId, String orderId, String email, List<Items> items, Car car, String washpacks,
-		int totalPrice, @NotEmpty(message = "Date can't be empty") long phoneNo,
+
+
+public Cart(int cartId, String orderId, String useremailid, List<Items> items, Car car, String washpacks,
+		int totalPrice, @NotEmpty(message = "phoneNo can't be empty") long phoneNo,
 		@NotEmpty(message = "Pincode can't be empty") String areapincode) {
 	super();
 	this.cartId = cartId;
-	OrderId = orderId;
-	this.email = email;
+	this.orderId = orderId;
+	this.useremailid = useremailid;
 	this.items = items;
 	this.car = car;
 	this.washpacks = washpacks;
@@ -41,13 +43,7 @@ public Cart(int cartId, String orderId, String email, List<Items> items, Car car
 	this.areapincode = areapincode;
 }
 
-public String getOrderId() {
-	return OrderId;
-}
 
-public void setOrderId(String orderId) {
-	OrderId = orderId;
-}
 
 public String getWashpacks() {
 	return washpacks;
@@ -68,17 +64,36 @@ public void setCartId(int cartId) {
 	this.cartId = cartId;
 }
 public String getCustomerId() {
-	return OrderId;
+	return orderId;
 }
 public void setCustomerId(String orderId) {
-	this.OrderId = orderId;
+	this.orderId = orderId;
 }
-public String getEmail() {
-	return email;
+
+public String getOrderId() {
+	return orderId;
 }
-public void setEmail(String email) {
-	this.email = email;
+
+
+
+public void setOrderId(String orderId) {
+	this.orderId = orderId;
 }
+
+
+
+public String getUseremailid() {
+	return useremailid;
+}
+
+
+
+public void setUseremailid(String useremailid) {
+	this.useremailid = useremailid;
+}
+
+
+
 public List<Items> getItems() {
 	return items;
 }
@@ -112,7 +127,7 @@ public void setAreapincode(String areapincode) {
 
 @Override
 public String toString() {
-	return "Cart [cartId=" + cartId + ", OrderId=" + OrderId + ", email=" + email + ", items=" + items + ", car=" + car
+	return "Cart [cartId=" + cartId + ", OrderId=" + orderId + ", email=" + useremailid + ", items=" + items + ", car=" + car
 			+ ", washpacks=" + washpacks + ", totalPrice=" + totalPrice + ", phoneNo=" + phoneNo + ", areapincode="
 			+ areapincode + "]";
 }

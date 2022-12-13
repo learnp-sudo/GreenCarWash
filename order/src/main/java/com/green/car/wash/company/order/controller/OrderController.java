@@ -2,20 +2,33 @@ package com.green.car.wash.company.order.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import com.green.car.wash.company.order.config.JwtUtil;
 import com.green.car.wash.company.order.exceptionHandlers.API_requestException;
+import com.green.car.wash.company.order.model.AuthenticationRequest;
+import com.green.car.wash.company.order.model.AuthenticationResponse;
 import com.green.car.wash.company.order.model.Cart;
+import com.green.car.wash.company.order.model.MessageResponse;
 import com.green.car.wash.company.order.model.OrderDetails;
+import com.green.car.wash.company.order.model.User1;
 import com.green.car.wash.company.order.repository.OrderRepo;
-
+import com.green.car.wash.company.order.repository.UserRepo;
+import com.green.car.wash.company.order.service.MyUserDetailsService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/orders")
@@ -24,8 +37,14 @@ public class OrderController {
     private OrderRepo or;
     @Autowired
     private RestTemplate restTemplate;
-    //@Autowired
-   // private SequenceGeneratorService sequenceGeneratorService;
+    @Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private MyUserDetailsService userDetailsService;
+	@Autowired
+	private JwtUtil jwtTokenUtil;
+	@Autowired
+	private UserRepo repo;
 
     //To get all orders
     @GetMapping("/findall")
@@ -39,11 +58,10 @@ public class OrderController {
          return ResponseEntity.ok(order);
     }
     //To add an order
-    @PostMapping("/add/{orderId}/{email}")
-    public void addOrder(@RequestBody Cart cart, String orderId, String email ) {
+    @PostMapping("/add/{email}")
+    public void addOrder(@RequestBody Cart cart,String email ) {
         OrderDetails order=new OrderDetails();
-        order.setOrderId(orderId);
-        order.setUseremailid(email);
+        order.setUseremailid(cart.getUseremailid());
         order.setWasherName("NA");
         order.setWashpack(cart.getWashpacks());
         order.setPhoneNo(cart.getPhoneNo());
@@ -122,7 +140,7 @@ public class OrderController {
     /** Methods that are consumed exclusively by rest templates below this comment */
     //This is called by Admin to update the status of the order(For Completed Order)
 
-    @PutMapping("/updateStatus/{orderId}")
+    @PutMapping("/updateStatus/completed/{orderId}")
     public ResponseEntity<OrderDetails> updateStatus(@PathVariable String orderId){
         OrderDetails existingOrder=or.findById(orderId).orElseThrow(() -> new API_requestException("Order with ID -> "+orderId+" not found, status update failed"));
         existingOrder.setStatus("Completed");
@@ -141,4 +159,51 @@ public class OrderController {
             throw new API_requestException("Order not found in database, washer not assigned");
         }
     }
+    /*-----------------------------------security----------------------------------*/
+	@PostMapping("/reg")
+	private ResponseEntity<?> subscribe(@Valid@RequestBody AuthenticationRequest request)
+	{
+		if (repo.existsByUsername(request.getUsername())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Username is already taken!"));
+		}
+
+
+		String username = request.getUsername();
+		String password = request.getPassword();
+
+		User1 model = new User1();
+		model.setUsername(username);
+		model.setPassword(password);
+		try {
+			repo.save(model);
+		}
+		catch (Exception e) {
+			return ResponseEntity.ok(new AuthenticationResponse("Error while subsribing the user with username " + username));
+
+		}
+		    return ResponseEntity.ok(new AuthenticationResponse("client subscribed with username " + username));
+	}
+	@RequestMapping(value="/authenticate", method=RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+		try
+		{
+		authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+	}
+		catch (BadCredentialsException e) {
+			throw new Exception("Incorrect username or password", e);
+		}
+
+
+		final UserDetails userDetails = userDetailsService
+				.loadUserByUsername(authenticationRequest.getUsername());
+
+		final String jwt = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new AuthenticationResponse(jwt));
+	}
+
+
 }
